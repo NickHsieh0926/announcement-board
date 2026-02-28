@@ -1,0 +1,16 @@
+# Virtual Environment
+.env
+.venv
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker artifacts
+docker/*.tar
+
+# Log Files
+/logs/
+*.log
+**/logs/
