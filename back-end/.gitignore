@@ -1,1 +1,17 @@
-/.metadata/
+# 排除 IDE 自動產生的資料夾
+.metadata/
+Servers/
+.recommenders/
+
+# 排除各專案內的編譯產出 (使用通配符)
+**/target/
+**/bin/
+
+# 排除各專案內的 Eclipse 設定
+**/.settings/
+**/.classpath
+**/.project
+
+# 排除作業系統產生的垃圾檔
+.DS_Store
+Thumbs.db
