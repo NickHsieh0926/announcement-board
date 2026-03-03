@@ -19,17 +19,22 @@ import jakarta.persistence.EntityManagerFactory;
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfig {
-	
+
 	@Bean
-    public DataSource dataSource() {
-        HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:mysql://localhost:3306/board_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Taipei");
-        ds.setUsername("sa");
-        ds.setPassword("p@ssw0rd");
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setMaximumPoolSize(10);
-        return ds;
-    }
+	public DataSource dataSource() {
+		HikariDataSource ds = new HikariDataSource();
+		String dbUrl = System.getenv().getOrDefault("DB_URL",
+				"jdbc:mysql://localhost:3306/board_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Taipei");
+		String dbUser = System.getenv().getOrDefault("DB_USER", "sa");
+		String dbPass = System.getenv().getOrDefault("DB_PASS", "p@ssw0rd");
+
+		ds.setJdbcUrl(dbUrl);
+		ds.setUsername(dbUser);
+		ds.setPassword(dbPass);
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		ds.setMaximumPoolSize(10);
+		return ds;
+	}
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
@@ -40,13 +45,11 @@ public class HibernateConfig {
 
 		Properties props = new Properties();
 //		props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-		props.setProperty("hibernate.hbm2ddl.auto", "update");
+		props.setProperty("hibernate.hbm2ddl.auto", "none");
 		props.setProperty("hibernate.show_sql", "true");
 		props.setProperty("hibernate.format_sql", "true");
-	    props.setProperty(
-			"hibernate.physical_naming_strategy",
-			"org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"
-		);
+		props.setProperty("hibernate.physical_naming_strategy",
+				"org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
 		emf.setJpaProperties(props);
 
 		return emf;

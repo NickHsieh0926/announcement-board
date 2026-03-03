@@ -48,13 +48,13 @@ public class AnnouncementController {
 	}
 
 	@PostMapping("/save")
-	public String save(@ModelAttribute AnnouncementDto dto, @RequestParam(required = false) MultipartFile file,
+	public String save(@ModelAttribute AnnouncementDto dto, @RequestParam String tabToken, @RequestParam(required = false) MultipartFile file,
 			HttpServletRequest request) {
 		LoginUser currentUser = (LoginUser) request.getAttribute("currentUser");
 		LOGGER.info("save: user={}, title={}", currentUser.getDisplayName(), dto.getTitle());
 		dto.setPublisher(currentUser.getDisplayName());
 		announcementService.create(dto, file);
-		return "redirect:/announcement/list";
+		return "redirect:/announcement/list?tabToken=" + tabToken;
 	}
 
 	@GetMapping("/edit/{id}")
@@ -73,17 +73,19 @@ public class AnnouncementController {
 	}
 
 	@PostMapping("/update")
-	public String update(@ModelAttribute AnnouncementDto dto, @RequestParam(required = false) MultipartFile file) {
-		LOGGER.info("update: id={}", dto.getId());
+	public String update(@ModelAttribute AnnouncementDto dto, @RequestParam String tabToken, @RequestParam(required = false) MultipartFile file, HttpServletRequest request) {
+		LoginUser currentUser = (LoginUser) request.getAttribute("currentUser");
+		LOGGER.info("update: user={}, title={}", currentUser.getDisplayName(), dto.getTitle());
+		dto.setPublisher(currentUser.getDisplayName());
 		announcementService.update(dto, file);
-		return "redirect:/announcement/list";
+		return "redirect:/announcement/list?tabToken=" + tabToken;
 	}
 
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
+	public String delete(@PathVariable Long id, @RequestParam String tabToken) {
 		LOGGER.info("delete: id={}", id);
 		announcementService.delete(id);
-		return "redirect:/announcement/list";
+		return "redirect:/announcement/list?tabToken=" + tabToken;
 	}
 
 }

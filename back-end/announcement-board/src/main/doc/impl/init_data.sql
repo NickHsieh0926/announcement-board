@@ -1,9 +1,9 @@
 -- 預插一筆測試資料 (帳號: admin, 密碼: 123456)
 -- 注意：這裡的密碼是經過 BCrypt 加密後的字串
- INSERT INTO users (username, passwordHash, displayName, createdAt)
- VALUES (
-     'admin',
-     '$2a$10$viOlnU9WQg0QLfGcL2COY.hUQ8fQr5KU1VtIfNrm.lbOURZ7KkXkS',
-     '系統管理員',
-     NOW()
- );
+INSERT INTO users (username, password_hash, display_name, created_at)
+VALUES (
+  'admin',
+  '$2a$10$viOlnU9WQg0QLfGcL2COY.hUQ8fQr5KU1VtIfNrm.lbOURZ7KkXkS',
+  '系統管理員',
+  NOW()
+);

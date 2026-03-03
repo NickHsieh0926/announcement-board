@@ -39,6 +39,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 		LOGGER.debug("Auth success: user={}, uri={}", loginUser.getUsername(), request.getRequestURI());
 		request.setAttribute("currentUser", loginUser);
+		request.setAttribute("ctx", request.getContextPath());
 		return true;
 	}
 
